@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <title>ecommerce</title>
+        <link rel="stylesheet" href="css/style.css">
+        <script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div>
+            <h1 class="p_title">在线商城</h1>
+        </div>
+        <div style="clear:both;"></div>
+        <div class="mdiv">
+            <p class="p_head">用户中心</p>
+            <div>
+                <b>编号</b><p id="id">id</p>
+                <b>姓名</b><p id="name">name</p>
+                <b>性别</b><p id="gender">gender</p>
+                <b>手机号</b><p id="telephone">telephone</p>
+                <b>余额</b><p id="balance">balance</p>
+                <div style="border: 1px solid #88abda;">
+                    <div class="div_input" style="clear: both;">
+                        <p style="text-align: center;">充值</p>
+                        <input id="cost" style="float: center;text-align: center;" value="100">
+                        <button class="button" id="recharge">确认充值</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mdiv" style="background-color: white;">
+            <div style="clear:both;">
+                <a href="platform.html"><button class="button" type="submit">返回</button></a>
+            </div>            
+            <div style="clear:both;">
+                <a href="login.html"><button class="button" type="submit" style="background-color:gray;">登出</button></a>
+            </div>
+        </div>
+    </body>
+    <script>
+        var g_userVO = {};
+        jQuery(document).ready(function() {
+            $(document).ready(function(){
+                $.ajax({
+                    type:"POST",
+                    contentType:"application/x-www-form-urlencoded",
+                    url:"http://localhost:8087/user/request",
+                    xhrFields:{withCredentials:true},
+                    success:function(data){
+                        if (data.data.errCode == 20003) {
+                            alert("用户未登录");
+                            window.location.href="login.html";
+                        }
+                        g_userVO = data.data;
+                        reloadDom();
+                    },
+                    error:function(data){
+                        alert("获取用户登录信息失败，因为 "+data.responseText)
+                        return false;
+                    }
+                });
+                return false;
+            });
+            $(document).ready(function(){
+                $.ajax({
+                    type:"POST",
+                    contentType:"application/x-www-form-urlencoded",
+                    url:"http://localhost:8087/wallet/get",
+                    xhrFields:{withCredentials:true},
+                    success:function(data){
+                        $("#balance").text(data.data.balance);
+                    },
+                    error:function(data){
+                        alert("获取余额失败，因为 "+data.responseText);
+                    }
+                });
+                return false;
+            });
+            $("#recharge").on("click", function(){
+                var cost = $("#cost").val();
+                if (cost < 1) {
+                    alert("充值金额不合法");
+                    return false;
+                }
+                $.ajax({
+                    type:"POST",
+                    contentType:"application/x-www-form-urlencoded",
+                    url:"http://localhost:8087/wallet/recharge",
+                    data:{
+                        "id":g_userVO.id,
+                        "cost":cost,
+                    },
+                    xhrFields:{withCredentials:true},
+                    success:function(data) {
+                        if (data.status == "success") {
+                            alert("充值成功");
+                            location.reload();
+                        } else {
+                            alert("充值失败，因为"+data.data.errorMessage);
+                        }
+                    },
+                    error:function(data) {
+                        alert("充值失败，因为" + data.responseText);
+                    }
+                });
+                return false;
+            });
+        });
+        function reloadDom() {
+            $("#id").text(g_userVO.id);
+            $("#name").text(g_userVO.name);
+            $("#gender").text(g_userVO.gender==1? "男":"女");
+            $("#telephone").text(g_userVO.telephone);
+        }
+    </script>
+</html>

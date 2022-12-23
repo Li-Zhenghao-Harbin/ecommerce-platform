@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <title>ecommerce</title>
+        <link rel="stylesheet" href="css/style.css">
+        <script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div>
+            <h1 class="p_title">在线商城</h1>
+        </div>
+        <div class="mdiv">
+            <p class="p_head">添加商品</p>
+            <div class="div_input">
+                商品名<br/>
+                <input class="input" type="text" name="title" id="title">
+            </div>
+            <div class="div_input">
+                价格<br/>
+                <input class="input" type="text" name="price" id="price">
+            </div>
+            <div class="div_input">
+                描述<br/>
+                <input class="input" type="text" name="description" id="description">
+            </div>
+            <div class="div_input">
+                图片链接<br/>
+                <input class="input" type="text" name="imgUrl" id="imgUrl">
+            </div>
+            <div class="div_input">
+                库存<br/>
+                <input class="input" type="text" name="stock" id="stock">
+            </div>
+            <div style="clear:both;">
+                <button class="button" id="create" type="submit">添加商品</button>
+            </div>
+            <div style="clear:both;">
+                <a href="login.html"><button class="button" type="submit">返回</button></a>
+            </div>
+            <!-- <a href="login.html" style="float: right; margin-top: 5%;">登录界面</a> -->
+        </div>
+    </body>
+    <script>
+        jQuery(document).ready(function() {
+            $("#create").on("click", function() {
+                var title = $("#title").val();
+                var price = $("#price").val();
+                var description = $("#description").val();
+                var imgUrl = $("#imgUrl").val();
+                var stock = $("#stock").val();
+                if (title == null || title == "") {
+                    alert("商品名不能为空");
+                    return;
+                }
+                if (price == null || price == "") {
+                    alert("价格不能为空");
+                    return;
+                }
+                if (description == null || description == "") {
+                    alert("描述不能为空");
+                    return;
+                }
+                if (imgUrl == null || imgUrl == "") {
+                    alert("图片链接不能为空");
+                    return;
+                }
+                if (stock == null || stock == "") {
+                    alert("库存不能为空");
+                    return;
+                }
+                $.ajax({
+                    type:"POST",
+                    contentType:"application/x-www-form-urlencoded",
+                    url:"http://localhost:8087/item/create",
+                    data:{
+                        "title":title,
+                        "price":price,
+                        "description":description,
+                        "imgUrl":imgUrl,
+                        "stock":stock
+                    },
+                    xhrFields:{withCredentials:true},
+                    success:function(data) {
+                        if (data.status == "success") {
+                            alert("添加商品成功");
+                        } else {
+                            alert("添加商品失败，因为"+data.data.errorMessage);
+                        }
+                    },
+                    error:function(data) {
+                        alert("添加商品失败，因为" + data.responseText);
+                    }
+                })
+                return false;
+            });
+        });
+    </script>
+</html>

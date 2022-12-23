@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <title>ecommerce</title>
+        <link rel="stylesheet" href="css/style.css">
+        <script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div>
+            <h1 class="p_title">在线商城</h1>
+        </div>
+        <div class="userdiv">
+            <p class="p_user" id="hello"></p>
+            <p class="p_user" style="float:right;margin: 0 auto;"><a href="user.html">用户中心</a>&nbsp;&nbsp;<a href="login.html">登出</a></p>
+        </div>
+        <div style="clear:both;"></div>
+        <div class="wdiv">
+            <p class="p_head">商品预览</p>
+            <table style="width:100%;">
+                <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <!-- <th>编号</th> -->
+                        <th>商品名</th>
+                        <th>价格</th>
+                        <th>描述</th>
+                        <th>销量</th>
+                        <th>库存</th>
+                    </tr>
+                </thead>
+                <tbody id="container" style="text-align: center; background-color: aliceblue; cursor: pointer;">
+
+                </tbody>
+            </table>
+        </div>
+    </body>
+    <script>
+        var g_itemList = [];
+        jQuery(document).ready(function(){
+            $.ajax({
+                type:"GET",
+                url:"http://localhost:8087/item/list",
+                xhrFields:{withCredentials:true},
+                success:function(data){
+                    if (data.status=="success") {
+                        g_itemList = data.data;
+                        reloadDom();
+                    }else{
+                        alert("获取商品信息失败，因为 "+data.responseText);
+                    }
+                },
+                error:function(data){
+                    alert("获取商品信息失败，因为 "+data.responseText);
+                }
+            });
+            $(document).ready(function(){
+                $.ajax({
+                    type:"POST",
+                    contentType:"application/x-www-form-urlencoded",
+                    url:"http://localhost:8087/user/request",
+                    xhrFields:{withCredentials:true},
+                    success:function(data){
+                        if (data.data.errCode == 20003) {
+                            alert("用户未登录");
+                            window.location.href="login.html";
+                        }
+                        $("#hello").text("您好，"+data.data.name);
+                    },
+                    error:function(data){
+                        alert("获取用户登录信息失败，因为 "+data.responseText);
+                    }
+                });
+                return false;
+            });
+        });
+        function reloadDom() {
+            for (var i = 0; i < g_itemList.length; i++) {
+                var itemVO = g_itemList[i];
+                var dom = "<tr data-id='"+itemVO.id+"' id='itemDetail"+itemVO.id+"'><td><img src='"+itemVO.imgUrl+"' style=\"width:100px;height:auto;\"/></td><td>"+itemVO.title+"</td><td>"+itemVO.price+"</td><td>"+itemVO.description+"</td><td>"+itemVO.sales+"</td><td>"+itemVO.stock+"</td></tr>";
+                $("#container").append($(dom));
+                $("#itemDetail"+itemVO.id).on("click",function(e){
+                    window.location.href="getItem.html?id="+$(this).data("id");
+                });
+            }
+        }
+    </script>
+</html>

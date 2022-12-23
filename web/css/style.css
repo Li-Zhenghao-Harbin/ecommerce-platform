@@ -1,0 +1,54 @@
+a {
+    color: gray;
+    /* text-decoration: none; */
+}
+
+.p_title {
+    text-align: center;
+}
+
+.mdiv {
+    margin: 1% 30% 1% 30%;
+    padding: 2% 10% 4% 10%;
+    background-color: #f4f4f4;
+}
+
+.wdiv {
+    margin: 1% 5% 1% 5%;
+    padding: 1%;
+    background-color: #f4f4f4;
+}
+
+.userdiv {
+    margin:0 5% 0 5%;
+    float: right;
+}
+
+.p_head {
+    text-align: center;
+    font-size: 20px;
+}
+
+.p_user {
+    font-size: 16px;
+}
+
+.div_input {
+    margin: 4% 4% 4% 4%;
+    text-align: center;
+}
+
+.input {
+    width: 100%;
+}
+
+.button {
+    clear: both;
+    margin-top: 5%;
+    padding: 3% 0 3% 0;
+    background-color: #88abda;
+    color: #f4f4f4;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+}
