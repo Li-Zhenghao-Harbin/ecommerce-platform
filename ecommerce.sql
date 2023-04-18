@@ -11,7 +11,7 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 20/03/2023 09:31:03
+ Date: 18/04/2023 23:42:03
 */
 
 SET NAMES utf8mb4;
@@ -29,7 +29,11 @@ CREATE TABLE `item_info`  (
   `sales` int NOT NULL DEFAULT 0,
   `img_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of item_info
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for item_stock
@@ -40,7 +44,11 @@ CREATE TABLE `item_stock`  (
   `stock` int NOT NULL DEFAULT 0,
   `item_id` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of item_stock
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for order_info
@@ -54,7 +62,11 @@ CREATE TABLE `order_info`  (
   `amount` int NOT NULL DEFAULT 0,
   `order_price` double NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of order_info
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sequence_info
@@ -64,7 +76,12 @@ CREATE TABLE `sequence_info`  (
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `current_value` int NOT NULL DEFAULT 0,
   `step` int NOT NULL DEFAULT 0
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sequence_info
+-- ----------------------------
+INSERT INTO `sequence_info` VALUES ('order_info', 0, 1);
 
 -- ----------------------------
 -- Table structure for user_info
@@ -77,7 +94,11 @@ CREATE TABLE `user_info`  (
   `telephone` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `telephone_unique_index`(`telephone`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of user_info
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for user_password
@@ -88,7 +109,11 @@ CREATE TABLE `user_password`  (
   `encrypt_password` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `user_id` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of user_password
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for user_wallet
@@ -99,6 +124,10 @@ CREATE TABLE `user_wallet`  (
   `balance` double(10, 0) NOT NULL,
   `user_id` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of user_wallet
+-- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;
